@@ -30,10 +30,10 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        protagonist.Update();
+        protagonist.Update(touchPad);
         batch.begin();
         batch.draw(backgroundTexture, 0, 0);
-        batch.draw(protagonist.GetSprite(), protagonist.GetPosition().x, protagonist.GetPosition().y);
+        protagonist.GetSprite().draw(batch);
         batch.end();
         touchPad.render();
     }

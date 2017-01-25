@@ -1,23 +1,19 @@
 package com.mygdx.game;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
 public final class Player extends Entity {
-    private Sprite heroSprite;
     private float angle;
     private static final float speed = 5;
 
     Player(Texture texture, Vector2 position) {
         this.texture = texture;
         this.position = position;
-        heroSprite = new Sprite(texture);
-        heroSprite.setOrigin(heroSprite.getWidth(), heroSprite.getHeight());
+        sprite = new Sprite(texture);
+        sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
     }
 
     public static float getSpeed() {
@@ -25,7 +21,7 @@ public final class Player extends Entity {
     }
 
     public Sprite GetSprite() {
-        return heroSprite;
+        return sprite;
     }
 
     public float getAngle() {
@@ -38,9 +34,9 @@ public final class Player extends Entity {
         if (!(Math.abs(v.x) < 0.3 && Math.abs(v.y) < 0.3)) {
             angle = v.angle();
         }
-        heroSprite.setX(heroSprite.getX() + touchPad.getKnobPercentX() * speed);
-        heroSprite.setY(heroSprite.getY() + touchPad.getKnobPercentY() * speed);
-        heroSprite.setRotation(angle);
+        sprite.setX(sprite.getX() + touchPad.getKnobPercentX() * speed);
+        sprite.setY(sprite.getY() + touchPad.getKnobPercentY() * speed);
+        sprite.setRotation(angle);
     }
 
     public Vector2 GetPosition() {

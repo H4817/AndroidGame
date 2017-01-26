@@ -9,19 +9,14 @@ public final class Player extends Entity {
     private float angle;
     private static final float speed = 5;
 
-    Player(Texture texture, Vector2 position) {
-        this.texture = texture;
+    Player(Vector2 position) {
+        LoadImage("8888.png");
         this.position = position;
-        sprite = new Sprite(texture);
-        sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
+        sprite.setPosition(position.x, position.y);
     }
 
     public static float getSpeed() {
         return speed;
-    }
-
-    public Sprite GetSprite() {
-        return sprite;
     }
 
     public float getAngle() {
@@ -34,13 +29,9 @@ public final class Player extends Entity {
         if (!(Math.abs(v.x) < 0.3 && Math.abs(v.y) < 0.3)) {
             angle = v.angle();
         }
-        sprite.setX(sprite.getX() + touchPad.getKnobPercentX() * speed);
-        sprite.setY(sprite.getY() + touchPad.getKnobPercentY() * speed);
+        sprite.setX(sprite.getX() + v.x * speed);
+        sprite.setY(sprite.getY() + v.y * speed);
         sprite.setRotation(angle);
-    }
-
-    public Vector2 GetPosition() {
-        return position;
     }
 
     public void Update(TouchPad touchPad) {

@@ -25,4 +25,20 @@ abstract class Entity {
         sprite = new Sprite(texture);
         sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
     }
+
+    public Sprite GetSprite() {
+        return sprite;
+    }
+
+    public void SetSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public Vector2 GetPosition() {
+        return position;
+    }
+
+    public void SetPosition(Vector2 position) {
+        this.position = position;
+    }
 }

@@ -10,20 +10,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class MyGdxGame extends ApplicationAdapter {
-    SpriteBatch batch;
-    Texture backgroundTexture;
-    Texture playerTexture;
-    Player protagonist;
-    TouchPad touchPad;
+    private SpriteBatch batch;
+    private Texture backgroundTexture;
+    private Player protagonist;
+    private EasyEnemy easyEnemy;
+    private TouchPad touchPad;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         backgroundTexture = new Texture("background.jpg");
-        playerTexture = new Texture("8888.png");
-        protagonist = new Player(playerTexture, new Vector2(10, 10));
+        protagonist = new Player(new Vector2(1300, 944));
         touchPad = new TouchPad();
         touchPad.create();
+        easyEnemy = new EasyEnemy(new Vector2(100, 400));
     }
 
     @Override
@@ -34,7 +34,9 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.begin();
         batch.draw(backgroundTexture, 0, 0);
         protagonist.GetSprite().draw(batch);
+        easyEnemy.GetSprite().draw(batch);
         batch.end();
         touchPad.render();
+        easyEnemy.Update(protagonist);
     }
 }

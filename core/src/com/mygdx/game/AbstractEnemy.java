@@ -25,27 +25,28 @@ public abstract class AbstractEnemy extends Entity {
     }
 
     protected void FlyTowardPlayer(Player player) {
-        double distance = Math.sqrt((player.GetPosition().x - position.x) * (player.GetPosition().x - position.x) +
-                (player.GetPosition().y - position.y) * (player.GetPosition().y - position.y));
+        Vector2 playerCoordinates = new Vector2(player.GetSprite().getX(), player.GetSprite().getY());
+        double distance = Math.sqrt((playerCoordinates.x - sprite.getX()) * (playerCoordinates.x - sprite.getX()) +
+                (playerCoordinates.y - sprite.getY()) * (playerCoordinates.y - sprite.getY()));
         CheckAggro(distance);
         if (!isAggro) {
             rotation =
-                    (Math.atan2(player.GetPosition().y - position.y, player.GetPosition().x - position.x)) *
+                    (Math.atan2(playerCoordinates.y - sprite.getY(), playerCoordinates.x - sprite.getX())) *
                             180 / Math.PI;
             if (distance > min_distance) {
 //                state = MOVE;
-                velocity.x += (ACCELERATION * (player.GetPosition().x - position.x) / distance); //TODO: add time
-                velocity.y += (ACCELERATION * (player.GetPosition().y - position.y) / distance);
+                velocity.x += (ACCELERATION * (playerCoordinates.x - sprite.getX()) / distance); //TODO: add time
+                velocity.y += (ACCELERATION * (playerCoordinates.y - sprite.getY()) / distance);
             } else {
 //                state = SLIDE;
                 velocity.x *= DECELERATION;
                 velocity.y *= DECELERATION;
             }
             sprite.setRotation((float) rotation);
-            position.x += velocity.x;
-            position.y += velocity.y;
-            sprite.setX(position.x);
-            sprite.setY(position.y);
+//            sprite.getX() += velocity.x;
+//            sprite.getY() += velocity.y;
+            sprite.setX(sprite.getX() + velocity.x);
+            sprite.setY(sprite.getY() + velocity.y);
         }
     }
 

@@ -13,11 +13,11 @@ public final class EasyEnemy extends AbstractEnemy {
         LoadImage("EasyEnemyGreenThrust.png");
         isAggro = false;
         velocity = new Vector2(0, 0);
-        min_distance = 550;
-        aggroDistance = 700;
+        min_distance = 500;
+        aggroDistance = 70;
         health = 100;
         MAX_HEALTH = 100;
-        this.position = position;
+//        this.position = position;
         sprite.setPosition(position.x, position.y);
         ACCELERATION = 0.007;
         DECELERATION = 0.001;

@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.Texture;
 abstract class Entity {
     Texture texture;
     Sprite sprite;
+    Sprite withoutThrust;
+    Sprite withThrust;
     Vector2 position;
 
     void LoadImage(String imageName) {
@@ -25,6 +27,14 @@ abstract class Entity {
         sprite = new Sprite(texture);
         sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
     }
+
+//    Sprite LoadImage(String imageName, Texture another_texture, Sprite another_sprite) {
+//        another_texture = new Texture(imageName);
+//        another_sprite = new Sprite(another_texture);
+//        another_sprite.setOrigin(another_sprite.getWidth(), another_sprite.getHeight());
+//        return another_sprite;
+//    }
+//
 
     public Sprite GetSprite() {
         return sprite;
@@ -41,4 +51,5 @@ abstract class Entity {
     public void SetPosition(Vector2 position) {
         this.position = position;
     }
+
 }

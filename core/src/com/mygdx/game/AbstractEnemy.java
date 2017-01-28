@@ -1,57 +1,68 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by nikolaj on 1/25/17.
  */
 
-public abstract class AbstractEnemy extends Entity {
-    protected int health;
-    protected int MAX_HEALTH;
-    protected double rotation;
-    protected int shield;
-    protected Vector2 velocity;
-    protected double ACCELERATION;
-    protected double DECELERATION;
-    protected boolean isAggro;
-    protected int aggroDistance;
-    protected int min_distance;
+abstract class AbstractEnemy extends Entity {
+    int health;
+    int MAX_HEALTH;
+    double rotation;
+    int shield;
+    boolean isDead;
+    Vector2 velocity;
+    double ACCELERATION;
+    double DECELERATION;
+    boolean isAggro;
+    int aggroDistance;
+    int min_distance;
+    Sprite withoutThrust;
+    Sprite withThrust;
 
-    protected void CheckAggro(double distance) {
+    private void CheckAggro(double distance) {
         if (!isAggro && (distance < aggroDistance || health != MAX_HEALTH)) {
             isAggro = true;
         }
     }
 
-    protected void FlyTowardPlayer(Player player) {
-        Vector2 playerCoordinates = new Vector2(player.GetSprite().getX(), player.GetSprite().getY());
-        double distance = Math.sqrt((playerCoordinates.x - sprite.getX()) * (playerCoordinates.x - sprite.getX()) +
-                (playerCoordinates.y - sprite.getY()) * (playerCoordinates.y - sprite.getY()));
+    private void FlyTowardPlayer(Vector2 playerCoordinates) {
+        double distance = Math.sqrt((playerCoordinates.x - position.x) * (playerCoordinates.x - position.x) +
+                (playerCoordinates.y - position.y) * (playerCoordinates.y - position.y));
         CheckAggro(distance);
         if (!isAggro) {
             rotation =
-                    (Math.atan2(playerCoordinates.y - sprite.getY(), playerCoordinates.x - sprite.getX())) *
+                    (Math.atan2(playerCoordinates.y - position.y, playerCoordinates.x - position.x)) *
                             180 / Math.PI;
             if (distance > min_distance) {
-//                state = MOVE;
-                velocity.x += (ACCELERATION * (playerCoordinates.x - sprite.getX()) / distance); //TODO: add time
-                velocity.y += (ACCELERATION * (playerCoordinates.y - sprite.getY()) / distance);
+                sprite.set(withThrust);
+                velocity.x += (ACCELERATION * (playerCoordinates.x - position.x) / distance); //TODO: add time
+                velocity.y += (ACCELERATION * (playerCoordinates.y - position.y) / distance);
             } else {
-//                state = SLIDE;
                 velocity.x *= DECELERATION;
                 velocity.y *= DECELERATION;
+                sprite.set(withoutThrust);
             }
+            position.x += velocity.x;
+            position.y += velocity.y;
             sprite.setRotation((float) rotation);
-//            sprite.getX() += velocity.x;
-//            sprite.getY() += velocity.y;
-            sprite.setX(sprite.getX() + velocity.x);
-            sprite.setY(sprite.getY() + velocity.y);
+            sprite.setX(position.x);
+            sprite.setY(position.y);
         }
     }
 
-    protected void Update(Player player) {
-        FlyTowardPlayer(player);
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    void Update(Vector2 playerPosition) {
+        FlyTowardPlayer(playerPosition);
     }
 
 }

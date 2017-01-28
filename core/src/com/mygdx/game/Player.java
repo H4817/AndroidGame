@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
-public final class Player extends Entity {
+final class Player extends Entity {
     private float angle;
     private Vector2 speed;
     private float ACCELERATION = 0.019f;
     private float DECELERATION = 0.997f;
+    private Sprite withoutThrust;
+    private Sprite withThrust;
 
     Player(Vector2 position) {
         speed = new Vector2(0, 0);
@@ -38,25 +40,20 @@ public final class Player extends Entity {
             angle = v.angle();
             speed.x +=  v.x * ACCELERATION;
             speed.y +=  v.y * ACCELERATION;
-            position.x += speed.x;
-            position.y += speed.y;
-            sprite.setX(position.x);
-            sprite.setY(position.y);
-            sprite.setRotation(angle);
         }
         else {
             speed.x *= DECELERATION;
             speed.y *= DECELERATION;
-            position.x += speed.x;
-            position.y += speed.y;
             sprite.set(withoutThrust);
-            sprite.setX(position.x);
-            sprite.setY(position.y);
-            sprite.setRotation(angle);
         }
+        position.x += speed.x;
+        position.y += speed.y;
+        sprite.setX(position.x);
+        sprite.setY(position.y);
+        sprite.setRotation(angle);
     }
 
-    public void Update(TouchPad touchPad) {
+    void Update(TouchPad touchPad) {
         UpdateCoordinates(touchPad.GetTouchpad());
     }
 }

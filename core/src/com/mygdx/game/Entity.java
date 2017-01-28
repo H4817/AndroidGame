@@ -18,8 +18,6 @@ import com.badlogic.gdx.graphics.Texture;
 abstract class Entity {
     Texture texture;
     Sprite sprite;
-    Sprite withoutThrust;
-    Sprite withThrust;
     Vector2 position;
 
     void LoadImage(String imageName) {

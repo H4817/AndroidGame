@@ -10,11 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 
 final class EasyEnemy extends AbstractEnemy {
     EasyEnemy(Vector2 position) {
-        LoadImage("EasyEnemyGreenThrust.png");
-        texture = new Texture("EasyEnemy.png");
-        withoutThrust = new Sprite(texture);
-        texture = new Texture("EasyEnemyGreenThrust.png");
-        withThrust = new Sprite(texture);
+        withoutThrust = new Sprite(new Texture("images/EasyEnemy.png"));
+        withThrust = new Sprite(new Texture("images/EasyEnemyGreenThrust.png"));
+        sprite = new Sprite(withoutThrust);
         isAggro = false;
         velocity = new Vector2(0, 0);
         min_distance = 500;

@@ -15,11 +15,9 @@ final class Player extends Entity {
 
     Player(Vector2 position) {
         speed = new Vector2(0, 0);
-        LoadImage("ship_without_thrust.png");
-        texture = new Texture("ship_without_thrust.png");
-        withoutThrust = new Sprite(texture);
-        texture = new Texture("ship_with_thrust.png");
-        withThrust = new Sprite(texture);
+        withoutThrust = new Sprite(new Texture("images/ship_without_thrust.png"));
+        withThrust = new Sprite(new Texture("images/ship_with_thrust.png"));
+        sprite = new Sprite(withoutThrust);
         this.position = position;
         sprite.setPosition(position.x, position.y);
     }

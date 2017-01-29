@@ -34,8 +34,8 @@ public class TouchPad implements ApplicationListener {
         camera.setToOrtho(false, 10f * aspectRatio, 10f);
 
         touchpadSkin = new Skin();
-        touchpadSkin.add("touchBackground", new Texture("data/touchBackground.png"));
-        touchpadSkin.add("touchKnob", new Texture("data/touchKnob.png"));
+        touchpadSkin.add("touchBackground", new Texture("images/touchBackground.png"));
+        touchpadSkin.add("touchKnob", new Texture("images/touchKnob.png"));
         touchpadStyle = new Touchpad.TouchpadStyle();
         //Create Drawable's from TouchPad skin
         touchBackground = touchpadSkin.getDrawable("touchBackground");

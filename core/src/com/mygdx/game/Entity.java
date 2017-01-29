@@ -16,13 +16,11 @@ import com.badlogic.gdx.graphics.Texture;
  */
 
 abstract class Entity {
-    Texture texture;
     Sprite sprite;
     Vector2 position;
 
     void LoadImage(String imageName) {
-        texture = new Texture(imageName);
-        sprite = new Sprite(texture);
+        sprite = new Sprite(new Texture(imageName));
         sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
     }
 

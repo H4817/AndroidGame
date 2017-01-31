@@ -32,13 +32,13 @@ abstract class AbstractEnemy extends Entity {
         double distance = Math.sqrt((playerCoordinates.x - position.x) * (playerCoordinates.x - position.x) +
                 (playerCoordinates.y - position.y) * (playerCoordinates.y - position.y));
         CheckAggro(distance);
-        if (!isAggro) {
+        if (isAggro) {
             rotation =
                     (Math.atan2(playerCoordinates.y - position.y, playerCoordinates.x - position.x)) *
                             180 / Math.PI;
             if (distance > min_distance) {
                 sprite.set(withThrust);
-                velocity.x += (ACCELERATION * (playerCoordinates.x - position.x) / distance); //TODO: add time
+                velocity.x += (ACCELERATION * (playerCoordinates.x - position.x) / distance);
                 velocity.y += (ACCELERATION * (playerCoordinates.y - position.y) / distance);
             } else {
                 velocity.x *= DECELERATION;
@@ -47,6 +47,7 @@ abstract class AbstractEnemy extends Entity {
             }
             position.x += velocity.x;
             position.y += velocity.y;
+            JumpToOppositeMapSide();
             sprite.setRotation((float) rotation);
             sprite.setX(position.x);
             sprite.setY(position.y);

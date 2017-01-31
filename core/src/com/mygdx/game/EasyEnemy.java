@@ -15,8 +15,8 @@ final class EasyEnemy extends AbstractEnemy {
         sprite = new Sprite(withoutThrust);
         isAggro = false;
         velocity = new Vector2(0, 0);
-        min_distance = 500;
-        aggroDistance = 70;
+        min_distance = 550;
+        aggroDistance = 700;
         health = 100;
         MAX_HEALTH = 100;
         this.position = position;

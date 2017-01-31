@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -34,7 +36,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private MapObjects mapObjects;
+    public static Vector2 mapSize;
 
     private void UpdateEnemies() {
         for (int i = 0; i < enemies.size(); ++i) {
@@ -52,7 +54,16 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void UpdateCamera() {
+        camera.position.set(protagonist.GetSprite().getX() + protagonist.GetSprite().getWidth() / 2,
+                protagonist.GetSprite().getY() + protagonist.GetSprite().getHeight() / 2, 0);
 
+        if (camera.position.x < 960) camera.position.x = 960;
+        if (camera.position.x > mapSize.x - 960) camera.position.x = mapSize.x - 960;
+        if (camera.position.y < 530) camera.position.y = 530;
+        if (camera.position.y > mapSize.y - 530) camera.position.y = mapSize.y - 530;
+
+
+        camera.update();
     }
 
     private void Update() {
@@ -62,6 +73,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void CreateObjects() {
+        MapObjects mapObjects = tiledMap.getLayers().get("objects").getObjects();
         for (EllipseMapObject ellipseMapObject : mapObjects.getByType(EllipseMapObject.class)) {
             if (ellipseMapObject.getName().equals("easyEnemy")) {
                 enemies.add(new EasyEnemy(new Vector2((Float) ellipseMapObject.getProperties().get("x"),
@@ -87,11 +99,14 @@ public class MyGdxGame extends ApplicationAdapter {
         enemies = new ArrayList<EasyEnemy>();
         tiledMap = new TmxMapLoader().load("levels/Level_1.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
-        mapObjects = tiledMap.getLayers().get("objects").getObjects();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         CreateObjects();
         camera.position.set(protagonist.GetSprite().getX(), protagonist.GetSprite().getY(), 0);
-        viewport = new ExtendViewport(1920, 1200, camera);
+        camera.translate(camera.viewportWidth / 2, camera.viewportHeight / 2);
+        MapProperties prop = tiledMap.getProperties();
+        mapSize = new Vector2(prop.get("width", Integer.class) * prop.get("tilewidth", Integer.class),
+                prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
+        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
     }
 
     @Override
@@ -100,18 +115,17 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.setView(camera);
         renderer.render();
-        camera.position.set(protagonist.GetSprite().getX(), protagonist.GetSprite().getY(), 0);
-        camera.update();
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         Update();
         batch.end();
         touchPad.render();
     }
 
-    @Override
+/*    @Override
     public void resize(int width, int height) {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.position.set(width / 2f, height / 2f, 0);
-    }
+    }*/
 }

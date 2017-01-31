@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import static com.mygdx.game.MyGdxGame.mapSize;
+
 /**
  * Created by nikolaj on 1/22/17.
  */
@@ -24,13 +26,25 @@ abstract class Entity {
         sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
     }
 
-//    Sprite LoadImage(String imageName, Texture another_texture, Sprite another_sprite) {
-//        another_texture = new Texture(imageName);
-//        another_sprite = new Sprite(another_texture);
-//        another_sprite.setOrigin(another_sprite.getWidth(), another_sprite.getHeight());
-//        return another_sprite;
-//    }
-//
+    public void ReduceSpeed() {
+//        velocity.x *= 0.2;
+//        velocity.y *= 0.2;
+    }
+
+    public void JumpToOppositeMapSide() {
+        if (position.x < 0) {
+            position.x = mapSize.x;
+        }
+        if (position.y < 0) {
+            position.y = mapSize.y;
+        }
+        if (position.x > mapSize.x) {
+            position.x = 0;
+        }
+        if (position.y > mapSize.y) {
+            position.y = 0;
+        }
+    }
 
     public Sprite GetSprite() {
         return sprite;

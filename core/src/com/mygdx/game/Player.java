@@ -16,8 +16,9 @@ final class Player extends Entity {
     Player(Vector2 position) {
         speed = new Vector2(0, 0);
         withoutThrust = new Sprite(new Texture("images/ship_without_thrust.png"));
-        withThrust = new Sprite(new Texture("images/ship_with_thrust.png"));
+        withThrust = new Sprite(new Texture("images/ship_with_thrust1.png"));
         sprite = new Sprite(withoutThrust);
+        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
         this.position = position;
         sprite.setPosition(position.x, position.y);
     }
@@ -46,6 +47,7 @@ final class Player extends Entity {
         }
         position.x += speed.x;
         position.y += speed.y;
+        JumpToOppositeMapSide();
         sprite.setX(position.x);
         sprite.setY(position.y);
         sprite.setRotation(angle);

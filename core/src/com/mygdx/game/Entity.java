@@ -20,6 +20,9 @@ import static com.mygdx.game.MyGdxGame.mapSize;
 abstract class Entity {
     Sprite sprite;
     Vector2 position;
+    Vector2 velocity;
+    float angle;
+    boolean isDead;
 
     void LoadImage(String imageName) {
         sprite = new Sprite(new Texture(imageName));
@@ -27,11 +30,15 @@ abstract class Entity {
     }
 
     public void ReduceSpeed() {
-//        velocity.x *= 0.2;
-//        velocity.y *= 0.2;
+        velocity.x *= 0.35;
+        velocity.y *= 0.35;
     }
 
-    public void JumpToOppositeMapSide() {
+    boolean OnTheEdge() {
+        return (position.x < 0) || (position.y < 0) || (position.x > mapSize.x) || (position.y > mapSize.y);
+    }
+
+    void JumpToOppositeMapSide() {
         if (position.x < 0) {
             position.x = mapSize.x;
         }
@@ -60,6 +67,30 @@ abstract class Entity {
 
     public void SetPosition(Vector2 position) {
         this.position = position;
+    }
+
+    public Vector2 GetVelocity() {
+        return velocity;
+    }
+
+    public void SetVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    public float GetAngle() {
+        return angle;
+    }
+
+    public void SetAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public boolean IsDead() {
+        return isDead;
+    }
+
+    public void SetDead(boolean dead) {
+        isDead = dead;
     }
 
 }

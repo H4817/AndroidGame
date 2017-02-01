@@ -46,7 +46,7 @@ public class TouchPad implements ApplicationListener {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(15, 15, 200, 200);
+        touchpad.setBounds(100, 100, 200, 200);
 
         //Create a Stage and add TouchPad
         stage = new Stage();

@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 abstract class AbstractEnemy extends Entity {
     int health;
     int MAX_HEALTH;
-    double rotation;
     int shield;
-    boolean isDead;
-    Vector2 velocity;
     double ACCELERATION;
     double DECELERATION;
     boolean isAggro;
@@ -33,9 +30,7 @@ abstract class AbstractEnemy extends Entity {
                 (playerCoordinates.y - position.y) * (playerCoordinates.y - position.y));
         CheckAggro(distance);
         if (isAggro) {
-            rotation =
-                    (Math.atan2(playerCoordinates.y - position.y, playerCoordinates.x - position.x)) *
-                            180 / Math.PI;
+            angle = (float) ((Math.atan2(playerCoordinates.y - position.y, playerCoordinates.x - position.x)) * 180 / Math.PI);
             if (distance > min_distance) {
                 sprite.set(withThrust);
                 velocity.x += (ACCELERATION * (playerCoordinates.x - position.x) / distance);
@@ -47,19 +42,14 @@ abstract class AbstractEnemy extends Entity {
             }
             position.x += velocity.x;
             position.y += velocity.y;
-            JumpToOppositeMapSide();
-            sprite.setRotation((float) rotation);
+            if (OnTheEdge()) {
+                JumpToOppositeMapSide();
+                ReduceSpeed();
+            }
+            sprite.setRotation(angle);
             sprite.setX(position.x);
             sprite.setY(position.y);
         }
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
     }
 
     void Update(Vector2 playerPosition) {

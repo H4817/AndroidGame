@@ -42,7 +42,7 @@ public class MyGdxGame extends ApplicationAdapter {
         for (int i = 0; i < enemies.size(); ++i) {
             enemies.get(i).Update(protagonist.GetPosition());
             enemies.get(i).GetSprite().draw(batch);
-            if (enemies.get(i).isDead) {
+            if (enemies.get(i).IsDead()) {
                 enemies.remove(i);
             }
         }
@@ -85,7 +85,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 } else {
                     protagonist.SetPosition(new Vector2((Float) ellipseMapObject.getProperties().get("x"),
                             (Float) ellipseMapObject.getProperties().get("y")));
-                    System.out.println("not null");
                 }
             }
         }

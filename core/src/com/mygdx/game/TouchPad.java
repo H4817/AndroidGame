@@ -12,9 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-/**
- * Created by nikolaj on 1/23/17.
- */
 public class TouchPad implements ApplicationListener {
     private OrthographicCamera camera;
     private Stage stage;

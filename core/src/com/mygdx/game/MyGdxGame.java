@@ -31,12 +31,14 @@ public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Player protagonist;
     private TouchPad touchPad;
-    private ArrayList<EasyEnemy> enemies;
+    private ArrayList<AbstractEnemy> enemies;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private Viewport viewport;
+
     public static Vector2 mapSize;
+    public static ArrayList<Projectile> bullets;
 
     private void UpdateEnemies() {
         for (int i = 0; i < enemies.size(); ++i) {
@@ -44,6 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
             enemies.get(i).GetSprite().draw(batch);
             if (enemies.get(i).IsDead()) {
                 enemies.remove(i);
+                //TODO: ++score;
             }
         }
     }
@@ -66,10 +69,23 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
     }
 
+    private void UpdateBullets() {
+        for (int i = 0; i < bullets.size(); ++i) {
+            bullets.get(i).Update();
+            bullets.get(i).GetSprite().draw(batch);
+            if (bullets.get(i).IsDead()) {
+                bullets.remove(i);
+            }
+        }
+//        projectile.Update();
+//        projectile.GetSprite().draw(batch);
+    }
+
     private void Update() {
         UpdatePlayer();
         UpdateCamera();
         UpdateEnemies();
+        UpdateBullets();
     }
 
     private void CreateObjects() {
@@ -95,7 +111,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         touchPad = new TouchPad();
         touchPad.create();
-        enemies = new ArrayList<EasyEnemy>();
+        enemies = new ArrayList<AbstractEnemy>();
         tiledMap = new TmxMapLoader().load("levels/Level_1.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -106,6 +122,9 @@ public class MyGdxGame extends ApplicationAdapter {
         mapSize = new Vector2(prop.get("width", Integer.class) * prop.get("tilewidth", Integer.class),
                 prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
         viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
+
+//        projectile = new Projectile(new Vector2(protagonist.GetPosition()), protagonist.GetAngle());
+        bullets = new ArrayList<Projectile>();
     }
 
     @Override

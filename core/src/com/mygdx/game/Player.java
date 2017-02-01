@@ -1,9 +1,13 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+
+import static com.mygdx.game.MyGdxGame.bullets;
 
 final class Player extends Entity {
     private float ACCELERATION = 0.04f;
@@ -47,5 +51,9 @@ final class Player extends Entity {
 
     void Update(TouchPad touchPad) {
         UpdateCoordinates(touchPad.GetTouchpad());
+        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            bullets.add(new Projectile(new Sprite(new Texture("images/BluePlasmaBullet.png")),
+                    new Vector2(position), angle));
+        }
     }
 }

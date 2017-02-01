@@ -3,10 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by nikolaj on 1/25/17.
- */
-
 abstract class AbstractEnemy extends Entity {
     int health;
     int MAX_HEALTH;

@@ -13,10 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 import static com.mygdx.game.MyGdxGame.mapSize;
 
-/**
- * Created by nikolaj on 1/22/17.
- */
-
 abstract class Entity {
     Sprite sprite;
     Vector2 position;
@@ -89,8 +85,8 @@ abstract class Entity {
         return isDead;
     }
 
-    public void SetDead(boolean dead) {
-        isDead = dead;
+    public void SetDead() {
+        isDead = true;
     }
 
 }

@@ -38,7 +38,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Viewport viewport;
 
     public static Vector2 mapSize;
-    public static ArrayList<Projectile> bullets;
+    public static ArrayList<Weapon> bullets;
 
     private void UpdateEnemies() {
         for (int i = 0; i < enemies.size(); ++i) {
@@ -123,8 +123,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
         viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
 
-//        projectile = new Projectile(new Vector2(protagonist.GetPosition()), protagonist.GetAngle());
-        bullets = new ArrayList<Projectile>();
+        bullets = new ArrayList<Weapon>();
     }
 
     @Override

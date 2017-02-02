@@ -52,7 +52,7 @@ final class Player extends Entity {
     void Update(TouchPad touchPad) {
         UpdateCoordinates(touchPad.GetTouchpad());
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            bullets.add(new Projectile(new Sprite(new Texture("images/BluePlasmaBullet.png")),
+            bullets.add(new Missile(new Sprite(new Texture("images/missile.png")),
                     new Vector2(position), angle));
         }
     }

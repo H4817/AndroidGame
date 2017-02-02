@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.particles.values.RectangleSpawnShapeValue;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -11,6 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.mygdx.game.MyGdxGame.mapSize;
 
 abstract class Entity {
@@ -19,10 +25,13 @@ abstract class Entity {
     Vector2 velocity;
     float angle;
     boolean isDead;
+    static final Map<String, String> explosions;
 
-    void LoadImage(String imageName) {
-        sprite = new Sprite(new Texture(imageName));
-        sprite.setOrigin(sprite.getWidth(), sprite.getHeight());
+    static {
+        explosions = new HashMap<String, String>();
+        explosions.put("Player", "images/Exp_type_B1.png");
+        explosions.put("Missile", "images/Exp_type_A1.png");
+        explosions.put("SmartMissile", "images/Exp_type_C1.png");
     }
 
     public void ReduceSpeed() {
@@ -46,6 +55,21 @@ abstract class Entity {
         }
         if (position.y > mapSize.y) {
             position.y = 0;
+        }
+    }
+
+    void CreateExplosion(String imageName) {
+        if (imageName != null) {
+//            this.sprite = new Sprite(new Texture(imageName));
+//            this.sprite.setRegion(128, 0, 128, 128);
+//            this.sprite.setX(position.x);
+//            this.sprite.setY(position.y);
+            float elapsedTime = 0.f;
+            Animation animation = new Animation(0.2f, TextureRegion.split(new Texture(imageName), 128, 128)[0]);
+            elapsedTime += Gdx.graphics.getDeltaTime();
+            this.sprite = new Sprite(animation.getKeyFrame(elapsedTime));
+            this.sprite.setX(position.x);
+            this.sprite.setY(position.y);
         }
     }
 

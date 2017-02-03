@@ -20,16 +20,18 @@ public class Weapon extends Entity {
     }
 
     public void Update() {
-        velocity.x = (float) Math.cos(angle * 0.017453f) * speed;
-        velocity.y = (float) Math.sin(angle * 0.017453f) * speed;
-        position.x += velocity.x;
-        position.y += velocity.y;
-        sprite.setRotation(angle);
-        sprite.setX(position.x);
-        sprite.setY(position.y);
-        if (IsOutsideOfDistance()) {
+        if (!IsOutsideOfDistance()) {
+            velocity.x = (float) Math.cos(angle * 0.017453f) * speed;
+            velocity.y = (float) Math.sin(angle * 0.017453f) * speed;
+            position.x += velocity.x;
+            position.y += velocity.y;
+            sprite.setRotation(angle);
+            sprite.setX(position.x);
+            sprite.setY(position.y);
+        } else {
             CreateExplosion(explosions.get(this.getClass().getSimpleName()));
-            SetDead();
+//            SetDead();
+
         }
     }
 }

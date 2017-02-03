@@ -14,6 +14,7 @@ abstract class AbstractEnemy extends Entity {
     int min_distance;
     Sprite withoutThrust;
     Sprite withThrust;
+    AbstractEnemy enemy;
 
     private void CheckAggro(double distance) {
         if (!isAggro && (distance < aggroDistance || health != MAX_HEALTH)) {

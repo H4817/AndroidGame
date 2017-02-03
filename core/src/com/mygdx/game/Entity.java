@@ -60,10 +60,11 @@ abstract class Entity {
 
     void CreateExplosion(String imageName) {
         if (imageName != null) {
-//            this.sprite = new Sprite(new Texture(imageName));
+            this.sprite = new Sprite(new Texture(imageName));
 //            this.sprite.setRegion(128, 0, 128, 128);
 //            this.sprite.setX(position.x);
 //            this.sprite.setY(position.y);
+            System.out.println( sprite.getHeight());
             float elapsedTime = 0.f;
             Animation animation = new Animation(0.2f, TextureRegion.split(new Texture(imageName), 128, 128)[0]);
             elapsedTime += Gdx.graphics.getDeltaTime();

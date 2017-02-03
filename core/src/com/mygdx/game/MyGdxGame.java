@@ -2,30 +2,19 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Ellipse;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -35,16 +24,26 @@ public class MyGdxGame extends ApplicationAdapter {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
-    private Viewport viewport;
+//    private Viewport viewport;
 
     public static Vector2 mapSize;
     public static ArrayList<Weapon> bullets;
 
+    static final ArrayList<String> NAME_OF_ENEMIES;
+
+    static {
+        NAME_OF_ENEMIES = new ArrayList<String>();
+        NAME_OF_ENEMIES.add("EasyEnemy");
+        NAME_OF_ENEMIES.add("MediumEnemy");
+        NAME_OF_ENEMIES.add("DifficultEnemy");
+    }
+
+
     private void UpdateEnemies() {
         for (int i = 0; i < enemies.size(); ++i) {
-            enemies.get(i).Update(protagonist.GetPosition());
-            enemies.get(i).GetSprite().draw(batch);
-            if (enemies.get(i).IsDead()) {
+            enemies.get(i).enemy.Update(protagonist.GetPosition());
+            enemies.get(i).enemy.GetSprite().draw(batch);
+            if (enemies.get(i).enemy.IsDead()) {
                 enemies.remove(i);
                 //TODO: ++score;
             }
@@ -77,8 +76,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 bullets.remove(i);
             }
         }
-//        projectile.Update();
-//        projectile.GetSprite().draw(batch);
     }
 
     private void Update() {
@@ -91,10 +88,11 @@ public class MyGdxGame extends ApplicationAdapter {
     private void CreateObjects() {
         MapObjects mapObjects = tiledMap.getLayers().get("objects").getObjects();
         for (EllipseMapObject ellipseMapObject : mapObjects.getByType(EllipseMapObject.class)) {
-            if (ellipseMapObject.getName().equals("easyEnemy")) {
-                enemies.add(new EasyEnemy(new Vector2((Float) ellipseMapObject.getProperties().get("x"),
+            if (NAME_OF_ENEMIES.contains(ellipseMapObject.getName())) {
+                enemies.add(new ConcreteEnemy(ellipseMapObject.getName(),
+                        new Vector2((Float) ellipseMapObject.getProperties().get("x"),
                         (Float) ellipseMapObject.getProperties().get("y"))));
-            } else if (ellipseMapObject.getName().equals("player")) {
+            } else if (ellipseMapObject.getName().equals("Player")) {
                 if (protagonist == null) {
                     protagonist = new Player(new Vector2((Float) ellipseMapObject.getProperties().get("x"),
                             (Float) ellipseMapObject.getProperties().get("y")));
@@ -121,7 +119,7 @@ public class MyGdxGame extends ApplicationAdapter {
         MapProperties prop = tiledMap.getProperties();
         mapSize = new Vector2(prop.get("width", Integer.class) * prop.get("tilewidth", Integer.class),
                 prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
-        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
+//        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
 
         bullets = new ArrayList<Weapon>();
     }
@@ -139,10 +137,4 @@ public class MyGdxGame extends ApplicationAdapter {
         touchPad.render();
     }
 
-/*    @Override
-    public void resize(int width, int height) {
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.position.set(width / 2f, height / 2f, 0);
-    }*/
 }

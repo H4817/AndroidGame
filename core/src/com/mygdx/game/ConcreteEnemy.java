@@ -58,7 +58,7 @@ final class MediumEnemy extends ConcreteEnemy {
 final class DifficultEnemy extends ConcreteEnemy {
     DifficultEnemy(Vector2 position) {
         withoutThrust = new Sprite(new Texture("images/DifficultEnemy.png"));
-        withThrust = new Sprite(new Texture("images/MediumEnemyWithGreenThrust.png"));
+        withThrust = new Sprite(new Texture("images/DifficultEnemyWithGreenThrust.png"));
         sprite = new Sprite(withoutThrust);
         velocity = new Vector2(0, 0);
         min_distance = 550;

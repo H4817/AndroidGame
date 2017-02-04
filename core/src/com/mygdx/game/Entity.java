@@ -4,12 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.particles.values.RectangleSpawnShapeValue;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -25,13 +19,23 @@ abstract class Entity {
     Vector2 velocity;
     float angle;
     boolean isDead;
-    static final Map<String, String> explosions;
+    static final Map<String, String> EXPLOSIONS;
 
     static {
-        explosions = new HashMap<String, String>();
-        explosions.put("Player", "images/Exp_type_B1.png");
-        explosions.put("Missile", "images/Exp_type_A1.png");
-        explosions.put("SmartMissile", "images/Exp_type_C1.png");
+        EXPLOSIONS = new HashMap<String, String>();
+        EXPLOSIONS.put("Player", "images/Exp_type_B1.png");
+        EXPLOSIONS.put("Missile", "images/Exp_type_A1.png");
+        EXPLOSIONS.put("SmartMissile", "images/Exp_type_C1.png");
+    }
+
+    static final Map<String, String> BULLET_IMAGES;
+
+    static
+    {
+        BULLET_IMAGES = new HashMap<String, String>();
+        BULLET_IMAGES.put("Projectile", "images/BluePlasmaBullet.png");
+        BULLET_IMAGES.put("Missile", "images/missile.png");
+        BULLET_IMAGES.put("SmartMissile", "images/SmartMissile.png");
     }
 
     public void ReduceSpeed() {

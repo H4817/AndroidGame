@@ -1,7 +1,13 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+
+import static com.mygdx.game.MyGdxGame.bullets;
 
 abstract class AbstractEnemy extends Entity {
     int health;
@@ -15,6 +21,7 @@ abstract class AbstractEnemy extends Entity {
     Sprite withoutThrust;
     Sprite withThrust;
     AbstractEnemy enemy;
+//    ArrayList<AbstractWeapon> weapon;
 
     private void CheckAggro(double distance) {
         if (!isAggro && (distance < aggroDistance || health != MAX_HEALTH)) {
@@ -49,8 +56,19 @@ abstract class AbstractEnemy extends Entity {
         }
     }
 
+    void MakeShot() {
+        if (isAggro) {
+            bullets.add(new ConcreteWeapon("Projectile",
+                    new Sprite(new Texture(BULLET_IMAGES.get("Projectile"))),
+                    new Vector2(position), angle));
+        }
+    }
+
+
     void Update(Vector2 playerPosition) {
         FlyTowardPlayer(playerPosition);
+        MakeShot();
+        //Shoot
     }
 
 }

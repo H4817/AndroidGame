@@ -3,40 +3,25 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Map;
+public class ConcreteWeapon extends AbstractWeapon {
 
-public class Weapon extends Entity {
+    ConcreteWeapon(String name, Sprite sprite, Vector2 position, float angle) {
 
-    float speed;
-    int distance;
-    Vector2 playerPos;
-
-    Weapon() {
-    }
-
-    boolean IsOutsideOfDistance() {
-        return (position.x > playerPos.x + distance || position.x < playerPos.x - distance) ||
-                (position.y > playerPos.y + distance || position.y < playerPos.y - distance);
-    }
-
-    public void Update() {
-        if (!IsOutsideOfDistance()) {
-            velocity.x = (float) Math.cos(angle * 0.017453f) * speed;
-            velocity.y = (float) Math.sin(angle * 0.017453f) * speed;
-            position.x += velocity.x;
-            position.y += velocity.y;
-            sprite.setRotation(angle);
-            sprite.setX(position.x);
-            sprite.setY(position.y);
-        } else {
-            CreateExplosion(explosions.get(this.getClass().getSimpleName()));
-//            SetDead();
-
+        if (name.equals("Projectile")) {
+            weapon = new Projectile(sprite, position, angle);
+        } else if (name.equals("Missile")) {
+            weapon = new Missile(sprite, position, angle);
+        } else if (name.equals("SmartMissile")) {
+            weapon = new SmartMissile(sprite, position, angle);
         }
+
     }
+
+    ConcreteWeapon() { }
+
 }
 
-class Projectile extends Weapon {
+class Projectile extends ConcreteWeapon {
     Projectile(Sprite sprite, Vector2 position, float angle) {
         this.playerPos = new Vector2(position);
         this.sprite = sprite;
@@ -49,7 +34,7 @@ class Projectile extends Weapon {
     }
 }
 
-class Missile extends Weapon {
+class Missile extends ConcreteWeapon {
     Missile(Sprite sprite, Vector2 position, float angle) {
         this.sprite = sprite;
         this.sprite.setOrigin(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);

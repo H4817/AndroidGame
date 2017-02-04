@@ -14,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
@@ -27,7 +26,7 @@ public class MyGdxGame extends ApplicationAdapter {
 //    private Viewport viewport;
 
     public static Vector2 mapSize;
-    public static ArrayList<Weapon> bullets;
+    public static ArrayList<ConcreteWeapon> bullets;
 
     static final ArrayList<String> NAME_OF_ENEMIES;
 
@@ -70,9 +69,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private void UpdateBullets() {
         for (int i = 0; i < bullets.size(); ++i) {
-            bullets.get(i).Update();
-            bullets.get(i).GetSprite().draw(batch);
-            if (bullets.get(i).IsDead()) {
+            bullets.get(i).weapon.Update();
+            bullets.get(i).weapon.GetSprite().draw(batch);
+            if (bullets.get(i).weapon.IsDead()) {
                 bullets.remove(i);
             }
         }
@@ -110,7 +109,7 @@ public class MyGdxGame extends ApplicationAdapter {
         touchPad = new TouchPad();
         touchPad.create();
         enemies = new ArrayList<AbstractEnemy>();
-        tiledMap = new TmxMapLoader().load("levels/Level_1.tmx");
+        tiledMap = new TmxMapLoader().load("levels/Level_4.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         CreateObjects();
@@ -121,7 +120,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
 //        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
 
-        bullets = new ArrayList<Weapon>();
+        bullets = new ArrayList<ConcreteWeapon>();
     }
 
     @Override

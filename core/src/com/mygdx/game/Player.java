@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.sun.org.apache.xpath.internal.operations.String;
+
+import java.util.ArrayList;
 
 import static com.mygdx.game.MyGdxGame.bullets;
 
@@ -15,6 +18,21 @@ final class Player extends Entity {
     private Sprite withoutThrust;
     private Sprite withThrust;
 
+    private enum CurrentWeapon {
+        Projectile,
+        Missile
+    }
+
+    CurrentWeapon currentWeapon;
+
+    public CurrentWeapon getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(CurrentWeapon currentWeapon) {
+        this.currentWeapon = currentWeapon;
+    }
+
     Player(Vector2 position) {
         velocity = new Vector2(0, 0);
         withoutThrust = new Sprite(new Texture("images/ship_without_thrust.png"));
@@ -23,6 +41,7 @@ final class Player extends Entity {
         sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
         this.position = position;
         sprite.setPosition(position.x, position.y);
+        currentWeapon = CurrentWeapon.Missile;
     }
 
     private void UpdateCoordinates(Touchpad touchPad) {
@@ -49,11 +68,16 @@ final class Player extends Entity {
         sprite.setRotation(angle);
     }
 
-    void Update(TouchPad touchPad) {
-        UpdateCoordinates(touchPad.GetTouchpad());
+    void MakeShot() {
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            bullets.add(new Missile(new Sprite(new Texture("images/missile.png")),
+            bullets.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
+                    new Sprite(new Texture(BULLET_IMAGES.get(this.getCurrentWeapon().name()))),
                     new Vector2(position), angle));
         }
+    }
+
+    void Update(TouchPad touchPad) {
+        UpdateCoordinates(touchPad.GetTouchpad());
+        MakeShot();
     }
 }

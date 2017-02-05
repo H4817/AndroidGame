@@ -19,6 +19,8 @@ abstract class Entity {
     Vector2 velocity;
     float angle;
     boolean isDead;
+    float elapsedTime = 0.f;
+    Animation animation;
     static final Map<String, String> EXPLOSIONS;
 
     static {
@@ -30,10 +32,9 @@ abstract class Entity {
 
     static final Map<String, String> BULLET_IMAGES;
 
-    static
-    {
+    static {
         BULLET_IMAGES = new HashMap<String, String>();
-        BULLET_IMAGES.put("Projectile", "images/BluePlasmaBullet.png");
+        BULLET_IMAGES.put("Projectile", "images/RedPlasmaBullet.png");
         BULLET_IMAGES.put("Missile", "images/missile.png");
         BULLET_IMAGES.put("SmartMissile", "images/SmartMissile.png");
     }
@@ -62,20 +63,52 @@ abstract class Entity {
         }
     }
 
-    void CreateExplosion(String imageName) {
+    void LoadAnimation(String imageName) {
         if (imageName != null) {
-            this.sprite = new Sprite(new Texture(imageName));
-//            this.sprite.setRegion(128, 0, 128, 128);
-//            this.sprite.setX(position.x);
-//            this.sprite.setY(position.y);
-            System.out.println( sprite.getHeight());
-            float elapsedTime = 0.f;
-            Animation animation = new Animation(0.2f, TextureRegion.split(new Texture(imageName), 128, 128)[0]);
-            elapsedTime += Gdx.graphics.getDeltaTime();
-            this.sprite = new Sprite(animation.getKeyFrame(elapsedTime));
-            this.sprite.setX(position.x);
-            this.sprite.setY(position.y);
+            animation = new Animation(0.03f, TextureRegion.split(new Texture(imageName), 128, 128)[0]);
         }
+    }
+
+    boolean AnimationFinished() {
+        return animation.isAnimationFinished(elapsedTime);
+    }
+
+    void PlayAnimationForExplosion() {
+        elapsedTime += Gdx.graphics.getDeltaTime();
+        this.sprite = new Sprite(animation.getKeyFrame(elapsedTime));
+        this.sprite.setX(position.x);
+        this.sprite.setY(position.y);
+
+    }
+
+    void CreateExplosion() {
+//        if (imageName != null) {
+//            Texture tmpTexture = new Texture(imageName);
+//            final int FRAME_COLS = tmpTexture.getWidth() / tmpTexture.getHeight();
+//            final int FRAME_ROWS = 1;
+//
+//            TextureRegion tmp[][] = TextureRegion.split(tmpTexture, tmpTexture.getWidth() / FRAME_COLS, tmpTexture.getHeight() / FRAME_ROWS);
+//            TextureRegion[] frames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+//            int index = 0;
+//            for (int i = 0; i < FRAME_ROWS; i++) {
+//                for (int j = 0; j < FRAME_COLS; j++) {
+//                    frames[index++] = tmp[i][j];
+//                }
+//            }
+//
+//            Animation animation = new Animation(0.025f, frames);
+//
+//            this.sprite = new Sprite(new Texture(imageName));
+//            this.sprite.setRegion(128, 0, 128, 128);
+
+        if (animation == null) {
+            LoadAnimation(EXPLOSIONS.get(this.getClass().getSimpleName()));
+        }
+        PlayAnimationForExplosion();
+        if (AnimationFinished()) {
+            SetDead();
+        }
+//        }
     }
 
     public Sprite GetSprite() {

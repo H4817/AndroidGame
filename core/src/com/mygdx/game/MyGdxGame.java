@@ -27,6 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public static Vector2 mapSize;
     public static ArrayList<ConcreteWeapon> bullets;
+    Asteroid asteroid;
 
     static final ArrayList<String> NAME_OF_ENEMIES;
 
@@ -82,6 +83,9 @@ public class MyGdxGame extends ApplicationAdapter {
         UpdateCamera();
         UpdateEnemies();
         UpdateBullets();
+
+        asteroid.Update();
+        asteroid.GetSprite().draw(batch);
     }
 
     private void CreateObjects() {
@@ -109,7 +113,7 @@ public class MyGdxGame extends ApplicationAdapter {
         touchPad = new TouchPad();
         touchPad.create();
         enemies = new ArrayList<AbstractEnemy>();
-        tiledMap = new TmxMapLoader().load("levels/Level_4.tmx");
+        tiledMap = new TmxMapLoader().load("levels/Level_1.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         CreateObjects();
@@ -121,6 +125,10 @@ public class MyGdxGame extends ApplicationAdapter {
 //        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
 
         bullets = new ArrayList<ConcreteWeapon>();
+
+
+
+        asteroid = new Asteroid();
     }
 
     @Override

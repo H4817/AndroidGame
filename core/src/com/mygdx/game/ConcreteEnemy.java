@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 class ConcreteEnemy extends AbstractEnemy {
 
@@ -35,6 +36,7 @@ final class EasyEnemy extends ConcreteEnemy {
         sprite.setPosition(position.x, position.y);
         ACCELERATION = 0.004f;
         DECELERATION = 0.997f;
+        startTime = TimeUtils.millis();
     }
 }
 
@@ -52,6 +54,7 @@ final class MediumEnemy extends ConcreteEnemy {
         sprite.setPosition(position.x, position.y);
         ACCELERATION = 0.004f;
         DECELERATION = 0.997f;
+        startTime = TimeUtils.millis();
     }
 }
 
@@ -69,5 +72,6 @@ final class DifficultEnemy extends ConcreteEnemy {
         sprite.setPosition(position.x, position.y);
         ACCELERATION = 0.004f;
         DECELERATION = 0.997f;
+        startTime = TimeUtils.millis();
     }
 }

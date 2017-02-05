@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import com.sun.org.apache.xpath.internal.operations.String;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.mygdx.game.MyGdxGame.bullets;
 
@@ -17,6 +20,7 @@ final class Player extends Entity {
     private float DECELERATION = 0.997f;
     private Sprite withoutThrust;
     private Sprite withThrust;
+    private long startTime = 0;
 
     private enum CurrentWeapon {
         Projectile,
@@ -24,6 +28,8 @@ final class Player extends Entity {
     }
 
     CurrentWeapon currentWeapon;
+
+    Map<CurrentWeapon, String> weaponImages;
 
     public CurrentWeapon getCurrentWeapon() {
         return currentWeapon;
@@ -42,6 +48,11 @@ final class Player extends Entity {
         this.position = position;
         sprite.setPosition(position.x, position.y);
         currentWeapon = CurrentWeapon.Missile;
+        weaponImages = new HashMap<CurrentWeapon, String>();
+        weaponImages.put(CurrentWeapon.Projectile, "images/BluePlasmaBullet.png");
+        weaponImages.put(CurrentWeapon.Missile, "images/missile.png");
+        startTime = TimeUtils.millis();
+
     }
 
     private void UpdateCoordinates(Touchpad touchPad) {
@@ -70,14 +81,22 @@ final class Player extends Entity {
 
     void MakeShot() {
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            bullets.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
-                    new Sprite(new Texture(BULLET_IMAGES.get(this.getCurrentWeapon().name()))),
-                    new Vector2(position), angle));
+            if (TimeUtils.timeSinceMillis(startTime) > 100) {
+                bullets.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
+                        new Sprite(new Texture(weaponImages.get(this.getCurrentWeapon()))),
+                        new Vector2(position), angle));
+                startTime = TimeUtils.millis();
+            }
         }
     }
 
-    void Update(TouchPad touchPad) {
+    void ProcessingInput(TouchPad touchPad) {
         UpdateCoordinates(touchPad.GetTouchpad());
         MakeShot();
+    }
+
+    void Update(TouchPad touchPad) {
+//        UpdateCoordinates(touchPad.GetTouchpad());
+        ProcessingInput(touchPad);
     }
 }

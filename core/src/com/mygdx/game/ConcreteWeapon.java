@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class ConcreteWeapon extends AbstractWeapon {
+class ConcreteWeapon extends AbstractWeapon {
 
     ConcreteWeapon(String name, Sprite sprite, Vector2 position, float angle) {
 
@@ -21,7 +21,7 @@ public class ConcreteWeapon extends AbstractWeapon {
 
 }
 
-class Projectile extends ConcreteWeapon {
+final class Projectile extends ConcreteWeapon {
     Projectile(Sprite sprite, Vector2 position, float angle) {
         this.playerPos = new Vector2(position);
         this.sprite = sprite;
@@ -30,7 +30,7 @@ class Projectile extends ConcreteWeapon {
         this.velocity = new Vector2();
         this.angle = angle;
         this.speed = 20;
-        this.distance = 370;
+        this.distance = 1700;
     }
 }
 
@@ -43,12 +43,12 @@ class Missile extends ConcreteWeapon {
         this.velocity = new Vector2();
         this.angle = angle;
         this.speed = 10;
-        this.distance = 470;
+        this.distance = 500;
     }
 
 }
 
-class SmartMissile extends Missile {
+final class SmartMissile extends Missile {
     SmartMissile(Sprite sprite, Vector2 position, float angle) {
         super(sprite, position, angle);
         this.position = position;

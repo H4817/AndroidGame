@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ abstract class AbstractEnemy extends Entity {
     Sprite withoutThrust;
     Sprite withThrust;
     AbstractEnemy enemy;
+    protected long startTime = 0;
 //    ArrayList<AbstractWeapon> weapon;
 
     private void CheckAggro(double distance) {
@@ -58,9 +60,12 @@ abstract class AbstractEnemy extends Entity {
 
     void MakeShot() {
         if (isAggro) {
-            bullets.add(new ConcreteWeapon("Projectile",
-                    new Sprite(new Texture(BULLET_IMAGES.get("Projectile"))),
-                    new Vector2(position), angle));
+            if (TimeUtils.timeSinceMillis(startTime) > 1500) {
+                bullets.add(new ConcreteWeapon("Projectile",
+                        new Sprite(new Texture(BULLET_IMAGES.get("Projectile"))),
+                        new Vector2(position), angle));
+                startTime = TimeUtils.millis();
+            }
         }
     }
 

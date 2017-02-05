@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractWeapon extends Entity {
@@ -18,11 +19,8 @@ public abstract class AbstractWeapon extends Entity {
                 (position.y > playerPos.y + distance || position.y < playerPos.y - distance);
     }
 
-//    public abstract void MakeShot();
-
     public void Update() {
         //checkCooldown();
-        //
         if (!IsOutsideOfDistance()) {
             velocity.x = (float) Math.cos(angle * 0.017453f) * speed;
             velocity.y = (float) Math.sin(angle * 0.017453f) * speed;
@@ -32,9 +30,12 @@ public abstract class AbstractWeapon extends Entity {
             sprite.setX(position.x);
             sprite.setY(position.y);
         } else {
-            CreateExplosion(EXPLOSIONS.get(this.getClass().getSimpleName()));
-            SetDead();
-
+            if (this.getClass().getSimpleName().equals("Missile") ||
+                    this.getClass().getSimpleName().equals("SmartMissile")) {
+                CreateExplosion();
+            } else {
+                SetDead();
+            }
         }
     }
 }

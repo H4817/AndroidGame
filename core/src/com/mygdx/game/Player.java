@@ -80,12 +80,12 @@ class Player extends Entity {
         sprite.setRotation(angle);
     }
 
-    void MakeShot() {
-        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+    void MakeShot(TouchPad touchPad) {
+        if (touchPad.IsButtonPressed()) {
             if (TimeUtils.timeSinceMillis(startTime) > 100) {
-                entities.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
+                new ConcreteWeapon(this.getCurrentWeapon().name(),
                         new Sprite(new Texture(weaponImages.get(this.getCurrentWeapon()))),
-                        new Vector2(position), angle));
+                        new Vector2(position), angle);
                 startTime = TimeUtils.millis();
             }
         }
@@ -93,7 +93,7 @@ class Player extends Entity {
 
     void ProcessingInput(TouchPad touchPad) {
         UpdateCoordinates(touchPad.GetTouchpad());
-        MakeShot();
+        MakeShot(touchPad);
     }
 
     void Draw() {
@@ -103,6 +103,7 @@ class Player extends Entity {
     void Update(TouchPad touchPad, Vector2 vector2) {
 //        UpdateCoordinates(touchPad.GetTouchpad());
         ProcessingInput(touchPad);
+//        button.Update();
         Draw();
     }
 }

@@ -1,7 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+
+import java.util.ArrayList;
 
 import static com.mygdx.game.MyGdxGame.batch;
 
@@ -10,7 +14,8 @@ public abstract class AbstractWeapon extends Entity {
     float cooldown;
     int distance;
     Vector2 playerPos;
-    AbstractWeapon weapon;
+//    AbstractWeapon weapon;
+    public static ArrayList<AbstractWeapon> listOfBullets = new ArrayList<AbstractWeapon>();
 
     public float getCooldown() {
         return cooldown;
@@ -45,7 +50,7 @@ public abstract class AbstractWeapon extends Entity {
     }
 
     public void Update(TouchPad touchPad, Vector2 vector2) {
-        weapon.Update();
-        weapon.Draw();
+        Update();
+        Draw();
     }
 }

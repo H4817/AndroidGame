@@ -23,8 +23,9 @@ abstract class AbstractEnemy extends Entity {
     int min_distance;
     Sprite withoutThrust;
     Sprite withThrust;
-    AbstractEnemy enemy;
+//    AbstractEnemy enemy;
     protected long startTime = 0;
+    public static ArrayList<AbstractEnemy> enemiesList = new ArrayList<AbstractEnemy>();
 //    ArrayList<AbstractWeapon> weapon;
 
     private void CheckAggro(double distance) {
@@ -63,9 +64,9 @@ abstract class AbstractEnemy extends Entity {
     void MakeShot() {
         if (isAggro) {
             if (TimeUtils.timeSinceMillis(startTime) > 1500) {
-                entities.add(new ConcreteWeapon("Projectile",
+                new ConcreteWeapon("Projectile",
                         new Sprite(new Texture(BULLET_IMAGES.get("Projectile"))),
-                        new Vector2(position), angle));
+                        new Vector2(position), angle);
                 startTime = TimeUtils.millis();
             }
         }
@@ -76,9 +77,9 @@ abstract class AbstractEnemy extends Entity {
     }
 
     void Update(TouchPad touchPad, Vector2 playerPosition) {
-        enemy.FlyTowardPlayer(playerPosition);
-        enemy.MakeShot();
-        enemy.Draw();
+        FlyTowardPlayer(playerPosition);
+        MakeShot();
+        Draw();
         //Shoot
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -21,6 +22,11 @@ public class TouchPad implements ApplicationListener {
     private Skin touchpadSkin;
     private Drawable touchBackground;
     private Drawable touchKnob;
+
+    private Button button;
+    private Button.ButtonStyle buttonStyle;
+//    private Skin buttonSkin;
+
 
     @Override
     public void create() {
@@ -45,11 +51,29 @@ public class TouchPad implements ApplicationListener {
         //setBounds(x,y,width,height)
         touchpad.setBounds(100, 100, 200, 200);
 
+        buttonStyle = new Button.ButtonStyle();
+        buttonStyle.checked = touchBackground;
+        buttonStyle.down = touchBackground;
+        buttonStyle.up = touchBackground;
+        buttonStyle.checkedOver = touchBackground;
+
+        button = new Button(buttonStyle);
+        button.setBounds(1600, 100, 200, 200);
+
+
         //Create a Stage and add TouchPad
         stage = new Stage();
         stage.addActor(touchpad);
+        stage.addActor(button);
+
+
+
         Gdx.input.setInputProcessor(stage);
 
+    }
+
+    public boolean IsButtonPressed() {
+        return button.isPressed();
     }
 
     @Override

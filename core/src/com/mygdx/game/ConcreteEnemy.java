@@ -9,11 +9,11 @@ class ConcreteEnemy extends AbstractEnemy {
 
     ConcreteEnemy(String enemyName, Vector2 position) {
         if (enemyName.equals("EasyEnemy")) {
-            enemy = new EasyEnemy(position);
+            enemiesList.add(new EasyEnemy(position));
         } else if (enemyName.equals("MediumEnemy")) {
-            enemy = new MediumEnemy(position);
+            enemiesList.add(new MediumEnemy(position));
         } else if (enemyName.equals("DifficultEnemy")) {
-            enemy = new DifficultEnemy(position);
+            enemiesList.add(new DifficultEnemy(position));
         }
 
     }

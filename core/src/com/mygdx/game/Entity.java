@@ -84,25 +84,6 @@ abstract class Entity {
     abstract void Update(TouchPad touchPad, Vector2 position);
 
     void CreateExplosion() {
-//        if (imageName != null) {
-//            Texture tmpTexture = new Texture(imageName);
-//            final int FRAME_COLS = tmpTexture.getWidth() / tmpTexture.getHeight();
-//            final int FRAME_ROWS = 1;
-//
-//            TextureRegion tmp[][] = TextureRegion.split(tmpTexture, tmpTexture.getWidth() / FRAME_COLS, tmpTexture.getHeight() / FRAME_ROWS);
-//            TextureRegion[] frames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-//            int index = 0;
-//            for (int i = 0; i < FRAME_ROWS; i++) {
-//                for (int j = 0; j < FRAME_COLS; j++) {
-//                    frames[index++] = tmp[i][j];
-//                }
-//            }
-//
-//            Animation animation = new Animation(0.025f, frames);
-//
-//            this.sprite = new Sprite(new Texture(imageName));
-//            this.sprite.setRegion(128, 0, 128, 128);
-
         if (animation == null) {
             LoadAnimation(EXPLOSIONS.get(this.getClass().getSimpleName()));
         }
@@ -110,7 +91,6 @@ abstract class Entity {
         if (AnimationFinished()) {
             SetDead();
         }
-//        }
     }
 
     public Sprite GetSprite() {

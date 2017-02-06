@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 
-import static com.mygdx.game.MyGdxGame.bullets;
+import static com.mygdx.game.MyGdxGame.batch;
+import static com.mygdx.game.MyGdxGame.entities;
+
 
 abstract class AbstractEnemy extends Entity {
     int health;
@@ -61,7 +63,7 @@ abstract class AbstractEnemy extends Entity {
     void MakeShot() {
         if (isAggro) {
             if (TimeUtils.timeSinceMillis(startTime) > 1500) {
-                bullets.add(new ConcreteWeapon("Projectile",
+                entities.add(new ConcreteWeapon("Projectile",
                         new Sprite(new Texture(BULLET_IMAGES.get("Projectile"))),
                         new Vector2(position), angle));
                 startTime = TimeUtils.millis();
@@ -69,10 +71,14 @@ abstract class AbstractEnemy extends Entity {
         }
     }
 
+    void Draw() {
+        this.GetSprite().draw(batch);
+    }
 
-    void Update(Vector2 playerPosition) {
-        FlyTowardPlayer(playerPosition);
-        MakeShot();
+    void Update(TouchPad touchPad, Vector2 playerPosition) {
+        enemy.FlyTowardPlayer(playerPosition);
+        enemy.MakeShot();
+        enemy.Draw();
         //Shoot
     }
 

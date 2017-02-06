@@ -11,12 +11,13 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
 public class MyGdxGame extends ApplicationAdapter {
-    private SpriteBatch batch;
+    static SpriteBatch batch;
     private Player protagonist;
     private TouchPad touchPad;
     private ArrayList<AbstractEnemy> enemies;
@@ -26,8 +27,9 @@ public class MyGdxGame extends ApplicationAdapter {
 //    private Viewport viewport;
 
     public static Vector2 mapSize;
-    public static ArrayList<ConcreteWeapon> bullets;
+//    public static ArrayList<ConcreteWeapon> bullets;
     Asteroid asteroid;
+    public static ArrayList<Entity> entities;
 
     static final ArrayList<String> NAME_OF_ENEMIES;
 
@@ -41,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private void UpdateEnemies() {
         for (int i = 0; i < enemies.size(); ++i) {
-            enemies.get(i).enemy.Update(protagonist.GetPosition());
+            enemies.get(i).enemy.Update(touchPad, protagonist.GetPosition());
             enemies.get(i).enemy.GetSprite().draw(batch);
             if (enemies.get(i).enemy.IsDead()) {
                 enemies.remove(i);
@@ -51,7 +53,7 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void UpdatePlayer() {
-        protagonist.Update(touchPad);
+        protagonist.Update(touchPad, new Vector2());
         protagonist.GetSprite().draw(batch);
     }
 
@@ -69,23 +71,32 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     private void UpdateBullets() {
-        for (int i = 0; i < bullets.size(); ++i) {
-            bullets.get(i).weapon.Update();
-            bullets.get(i).weapon.GetSprite().draw(batch);
-            if (bullets.get(i).weapon.IsDead()) {
-                bullets.remove(i);
-            }
-        }
+//        for (int i = 0; i < bullets.size(); ++i) {
+//            bullets.get(i).weapon.Update(touchPad, new Vector2());
+//            if (bullets.get(i).weapon.GetSprite().getBoundingRectangle().overlaps(protagonist.GetSprite().getBoundingRectangle())) {
+//                System.out.println("CollideWithPlayer");
+//            }
+//
+//            bullets.get(i).weapon.GetSprite().draw(batch);
+//            if (bullets.get(i).weapon.IsDead()) {
+//                bullets.remove(i);
+//            }
+//        }
     }
 
     private void Update() {
-        UpdatePlayer();
-        UpdateCamera();
-        UpdateEnemies();
-        UpdateBullets();
+//        UpdatePlayer();
+//        UpdateCamera();
+//        UpdateEnemies();
+//        UpdateBullets();
+//
+//        asteroid.Update(touchPad, new Vector2());
+//        asteroid.GetSprite().draw(batch);
 
-        asteroid.Update();
-        asteroid.GetSprite().draw(batch);
+        for (int i = 0; i < entities.size(); ++i) {
+            entities.get(i).Update(touchPad, protagonist.GetPosition());
+        }
+        UpdateCamera();
     }
 
     private void CreateObjects() {
@@ -105,10 +116,13 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
             }
         }
+        entities.add(protagonist);
+        entities.addAll(enemies);
     }
 
     @Override
     public void create() {
+        entities = new ArrayList<Entity>();
         batch = new SpriteBatch();
         touchPad = new TouchPad();
         touchPad.create();
@@ -124,7 +138,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 prop.get("height", Integer.class) * prop.get("tileheight", Integer.class));
 //        viewport = new ExtendViewport(mapSize.x, mapSize.y, camera);
 
-        bullets = new ArrayList<ConcreteWeapon>();
+//        bullets = new ArrayList<ConcreteWeapon>();
 
 
 

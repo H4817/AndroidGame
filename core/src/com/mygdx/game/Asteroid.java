@@ -28,7 +28,7 @@ public final class Asteroid extends Entity {
         position = new Vector2();
     }
 
-    void Update() {
+    void Update(TouchPad touchPad, Vector2 vector2) {
 
         elapsedTime += Gdx.graphics.getDeltaTime();
         this.sprite = new Sprite(animation.getKeyFrame(elapsedTime, true));

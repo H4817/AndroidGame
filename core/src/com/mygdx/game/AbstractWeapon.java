@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
+import static com.mygdx.game.MyGdxGame.batch;
+
 public abstract class AbstractWeapon extends Entity {
     float speed;
     float cooldown;
@@ -20,7 +22,6 @@ public abstract class AbstractWeapon extends Entity {
     }
 
     public void Update() {
-        //checkCooldown();
         if (!IsOutsideOfDistance()) {
             velocity.x = (float) Math.cos(angle * 0.017453f) * speed;
             velocity.y = (float) Math.sin(angle * 0.017453f) * speed;
@@ -37,5 +38,14 @@ public abstract class AbstractWeapon extends Entity {
                 SetDead();
             }
         }
+    }
+
+    public void Draw() {
+        this.GetSprite().draw(batch);
+    }
+
+    public void Update(TouchPad touchPad, Vector2 vector2) {
+        weapon.Update();
+        weapon.Draw();
     }
 }

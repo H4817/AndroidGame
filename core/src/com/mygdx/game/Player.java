@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mygdx.game.MyGdxGame.bullets;
+import static com.mygdx.game.MyGdxGame.batch;
+import static com.mygdx.game.MyGdxGame.entities;
 
-final class Player extends Entity {
+class Player extends Entity {
     private float ACCELERATION = 0.04f;
     private float DECELERATION = 0.997f;
     private Sprite withoutThrust;
@@ -82,7 +83,7 @@ final class Player extends Entity {
     void MakeShot() {
         if (Gdx.input.isKeyPressed(Input.Keys.R)) {
             if (TimeUtils.timeSinceMillis(startTime) > 100) {
-                bullets.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
+                entities.add(new ConcreteWeapon(this.getCurrentWeapon().name(),
                         new Sprite(new Texture(weaponImages.get(this.getCurrentWeapon()))),
                         new Vector2(position), angle));
                 startTime = TimeUtils.millis();
@@ -95,8 +96,13 @@ final class Player extends Entity {
         MakeShot();
     }
 
-    void Update(TouchPad touchPad) {
+    void Draw() {
+        this.GetSprite().draw(batch);
+    }
+
+    void Update(TouchPad touchPad, Vector2 vector2) {
 //        UpdateCoordinates(touchPad.GetTouchpad());
         ProcessingInput(touchPad);
+        Draw();
     }
 }

@@ -81,6 +81,8 @@ abstract class Entity {
 
     }
 
+    abstract void Update(TouchPad touchPad, Vector2 position);
+
     void CreateExplosion() {
 //        if (imageName != null) {
 //            Texture tmpTexture = new Texture(imageName);

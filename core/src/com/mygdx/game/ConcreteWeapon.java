@@ -43,7 +43,7 @@ class Missile extends ConcreteWeapon {
         this.velocity = new Vector2();
         this.angle = angle;
         this.speed = 10;
-        this.distance = 500;
+        this.distance = 1000;
     }
 
 }
@@ -55,8 +55,8 @@ final class SmartMissile extends Missile {
         velocity = new Vector2(5, 5);
     }
 
-    @Override
-    public void Update() {
-
-    }
+//    @Override
+//    public void Update() {
+//
+//    }
 }

@@ -22,6 +22,7 @@ class Player extends Entity {
     private Sprite withoutThrust;
     private Sprite withThrust;
     private long startTime = 0;
+    private int health;
 
     private enum CurrentWeapon {
         Projectile,
@@ -40,6 +41,14 @@ class Player extends Entity {
         this.currentWeapon = currentWeapon;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     Player(Vector2 position) {
         velocity = new Vector2(0, 0);
         withoutThrust = new Sprite(new Texture("images/ship_without_thrust.png"));
@@ -53,7 +62,7 @@ class Player extends Entity {
         weaponImages.put(CurrentWeapon.Projectile, "images/BluePlasmaBullet.png");
         weaponImages.put(CurrentWeapon.Missile, "images/missile.png");
         startTime = TimeUtils.millis();
-
+        health = 400;
     }
 
     private void UpdateCoordinates(Touchpad touchPad) {
@@ -101,9 +110,10 @@ class Player extends Entity {
     }
 
     void Update(TouchPad touchPad, Vector2 vector2) {
-//        UpdateCoordinates(touchPad.GetTouchpad());
         ProcessingInput(touchPad);
-//        button.Update();
+        if (health <= 0) {
+            SetDead();
+        }
         Draw();
     }
 }

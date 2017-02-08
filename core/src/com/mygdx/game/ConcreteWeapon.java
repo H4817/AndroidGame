@@ -34,6 +34,8 @@ final class Projectile extends ConcreteWeapon {
         this.angle = angle;
         this.speed = 20;
         this.distance = 1700;
+        this.sprite.setRotation(angle);
+        this.damage = 20;
     }
 }
 
@@ -58,6 +60,8 @@ class Missile extends ConcreteWeapon {
         this.angle = angle;
         this.speed = 10;
         this.distance = 1000;
+        this.sprite.setRotation(angle);
+        this.damage = 1;
     }
 
 }
@@ -66,11 +70,16 @@ final class SmartMissile extends Missile {
     SmartMissile(Sprite sprite, Vector2 position, float angle) {
         super(sprite, position, angle);
         this.position = position;
-        velocity = new Vector2(5, 5);
+        velocity = new Vector2();
+        this.speed = 5;
+
+        this.sprite.setRotation(angle);
+
+        this.damage = 1;
     }
 
-//    @Override
-//    public void Update() {
-//
-//    }
+    @Override
+    public void Update(Vector2 currentPlayerPosition) {
+        SmartMissileUpdate(currentPlayerPosition);
+    }
 }
